@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-->
+	<debug>2</debug>
+	<id>7</id>
+	<block>po2</block>
+	<npp>7.7.1</npp>
+	<clink>0.4.9</clink>
+	<sumatra></sumatra>
+<!-->
+<COMMON>
+	<debug>2</debug>
+	<file_log>C:\ProgramData\logfiles\install.log</file_log>
+	<uname>User</uname>
+	<password>1</password>
+	<subnet>192.168</subnet>
+	<stepnet>10</stepnet>
+	<time_servers_ip>5</time_servers_ip>
+</COMMON>
+
+<SMART>
+	<RECORDER>
+		<path_to_install>D:\ARMZ</path_to_install>
+		<path_to_gnrl>D:\Signals</path_to_gnrl>
+		<path_to_arch>E:\Signals</path_to_arch>
+		<run_as_desktop>no</run_as_desktop>
+		<version>4.8.3.21</version>
+	</RECORDER>
+	<PLAYER3>
+		<path_to_install>C:\Program Files\Peleng\Player3</path_to_install>
+		<run_as_desktop>yes</run_as_desktop>
+		<version>3.3.49</version>
+	</PLAYER3>
+	<BVZ>
+		<install_vg>yes</install_vg>
+		<run_as_desktop>yes</run_as_desktop>
+	</BVZ>
+	<ip_base>130</ip_base>
+</SMART>
+
+<MASTER>
+	<path_to_install>C:\Program Files\Peleng\Master</path_to_install>
+	<ip_base>170</ip_base>
+	<run_as_desktop>yes</run_as_desktop>
+	<version>1697</version>
+<!-->
+	1 - Notify
+	2 - Ivona
+	3 - Valera
+<!-->
+	<sound>2</sound>
+	<hot_reserv>false</hot_reserv>
+	<install_vg>true</install_vg>
+<!--> DB <!-->
+	<sectors>ACC_W ACC_E TMA ACC_NUC ACC_NAM</sectors>
+	<rw>RW08L RW26L RW08R RW26R</rw>
+</MASTER>
+
+<VGRABBER>
+	<path_to_install>C:\Program Files\Peleng\VGrabber</path_to_install>
+	<ip_bri>131 132</ip_bri>
+	<version>2.50</version>
+</VGRABBER>
+
+<DBSYNC>
+	<path_to_install>C:\Windows\DBsync</path_to_install>
+	<version>0.0.1</version>
+</DBSYNC>
+
+<RTS>
+	<path_to_install>D:\RTS</path_to_install>
+	<ip_base>190</ip_base>
+	<run_as_desktop>no</run_as_desktop>
+	<version>2018.12.14</version>
+</RTS>
+
+<TACHYON>
+	<path_to_install>C:\Program Files\Peleng\Tachyon</path_to_install>
+	<ip_base>10</ip_base>
+	<run_as_desktop>yes</run_as_desktop>
+	<version>2.2</version>
+	<version_snd>2.2</version_snd>
+</TACHYON>
+
+<SERVER>
+	<path_to_install>D:\Server</path_to_install>
+	<ip_base>0</ip_base>
+	<run_as_desktop>yes</run_as_desktop>
+	<version></version>
+</SERVER>
+
+<AVIA>
+	<path_to_install>D:\AVIA</path_to_install>
+	<ip_base>10</ip_base>
+	<run_as_desktop>yes</run_as_desktop>
+	<version></version>
+</AVIA>
+
+<TRS>
+	<path_to_install>C:\Program Files\Peleng\TRS</path_to_install>
+	<ip_base>200</ip_base>
+	<run_as_desktop>yes</run_as_desktop>
+	<version></version>
+</TRS>
+
+<!-->
+	ИС		- 1,2							<ip_base>0<
+	Тахион	- 10,11,12						<ip_base>10<
+	ПС		- 15,16
+	A/V		- 101,102,111..., 121...		<ip_base>100<
+	СМАР-Т	- 131,132,133[134], 141...159	<ip_base>130<
+	Мастер	- 171,172,173					<ip_base>170<
+	АСК		- 191							<ip_base>190<
+	TDK		- 201							<ip_base>200<
+<!-->

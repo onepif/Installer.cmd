@@ -1,0 +1,5 @@
+
+
+pacman -S xorg lightdm lightdm-gtk-greeter
+pacman -S vlc okular synaptics net-tools libreoffice dialod wpa_supplicant mc firefox ntfs-3g
+systemctl enable lightdm.service
