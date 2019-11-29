@@ -1,4 +1,7 @@
+:: =============================================================================
 :: ./share_folders.cmd
+:: <charset=cp866/>
+:: =============================================================================
 
 :: The script to share folders.
 :: For the correct operation of the script must be run with administrator privileges
@@ -20,6 +23,7 @@ if %count% EQU 8 (
 ) else (
 	call logging.cmd %fCONS% %fLOG% -te -m "Argument set error" -cr
 )
+call debug_lvl 2 "%~n0" "pUser=%pUser%, pPass=%pPass%, pPath=%pPath%, pShare=%pShare%"
 
 if /i not %USERNAME% == %pUser% (
 	call logging %fCONS% %fLOG% -m "Create user: %pUser%" -cr
@@ -30,7 +34,7 @@ if /i not %USERNAME% == %pUser% (
 	net user %pUser% %pPass% >nul 2>nul
 )
 
-call logging %fCONS% %fLOG% -m "Create share: %pShareh%... "
+call logging %fCONS% %fLOG% -m "Create share: %pShare%... "
 net share %pShare%=%pPath% /grant:%pUser%,full >nul 2>nul
 if %errorlevel% == 0 (%CMD_OkCr%) else (
 	if %errorlevel% == 2 (%CMD_OkCr%) else %CMD_ErrCr%

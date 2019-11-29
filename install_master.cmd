@@ -14,11 +14,16 @@
 if not exist %WINDIR%\7z.exe copy /Y "%SOFT_ENV%\7z\%PROCESSOR_ARCHITECTURE%\*.exe" %WINDIR% >nul
 
 call get_var.cmd -f MASTER:path_to_install -v PATH_PELENG -q "Specify the folder name for install Master "
-for /f %%i in ('echo %PATH_PELENG% | sed -n /"Program Files"/ip') do if "%%i" == "" (set var=0) else set var=1
-if %var% == 1 (
-	for /f %%i in ('echo %PATH_PELENG% | sed -n /\(x86\)/p') do if "%%i" == "" (set var=0) else set var=1
-	if %var% == 0 if /i %PROCESSOR_ARCHITECTURE%==amd64 sed s/"Program Files"/"Program Files (x86)"/i
+if /i %PROCESSOR_ARCHITECTURE%==amd64 (
+	echo %PATH_PELENG%>%tmp%\tmp.txt
+	sed -i "s/Program Files\\/Program Files (x86)\\/i" %tmp%\tmp.txt
+	set /p PATH_PELENG=<%tmp%\tmp.txt
 )
+::for /f %%i in ("echo %PATH_PELENG% ^| sed -n /"Program Files"/p") do if "%%i" == "" (set var=0) else set var=1
+::if %var% == 1 (
+::	for /f %%i in ("echo %PATH_PELENG% ^| sed -n /\(x86\)/p") do if "%%i" == "" (set var=0) else set var=1
+::	if %var% == 0 if /i %PROCESSOR_ARCHITECTURE%==amd64 sed s/"Program Files"/"Program Files (x86)"/i
+::)
 call debug_lvl.cmd 2 "%~n0" "PATH_PELENG=%PATH_PELENG%"
 call setxx.cmd PATH_PELENG "%PATH_PELENG%"
 
@@ -48,7 +53,9 @@ if exist %SOFT_INST%\master\master_base.zip (
 		%CMD_ErrCr%
 		call logging.cmd %fCONS% %fLOG% -cr -te -m"Unpacking error"
 	)
-	move /y "%PATH_PELENG%"\*.dll %WINDIR% >nul 2>nul
+	if /i %PROCESSOR_ARCHITECTURE%==amd64 (
+		move /y "%PATH_PELENG%"\*.dll %WINDIR%\sysWOW64 >nul 2>nul
+	) else move /y "%PATH_PELENG%"\*.dll %WINDIR%\system32 >nul 2>nul
 	if !errorlevel! == 0 (%CMD_OkCr%) else %CMD_ErrCr%
 ) else (
 	%CMD_ErrCr%
@@ -102,15 +109,15 @@ Setlocal EnableDelayedExpansion
 EndLocal
 
 call get_var.cmd -f MASTER:hot_reserv -v FLAG_HOTR -q "Install 'Hot Reserv' "
-call debug_lvl 2 "%~n0" "you answerd: %FLAG_HOTR%"
+call debug_lvl 2 "%~n0" "Install 'Hot Reserv'; you answerd: %FLAG_HOTR%"
 if /i %FLAG_HOTR% == true (
 	call setxx.cmd FLAG_HOTR 1
 	call copyDBs.cmd
 ) else call del_var.cmd FLAG_HOTR
 
-call get_var.cmd -f MASTER:install_vg -v var -q "Install VGrabber "
-call debug_lvl 2 "%~n0" "you answerd: %var%"
-if /i %var% == true (call install_vg.cmd)
+call get_var.cmd -f MASTER:install_vg -v vg -q "Install VGrabber "
+call debug_lvl 2 "%~n0" "Install VGrabber; you answerd: %vg%"
+if /i %vg% == true (call install_vg.cmd)
 
 %CMD_DBG% "=== Script %~n0 completed ==="
 

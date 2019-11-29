@@ -15,10 +15,10 @@ if not defined CMD_DBG call header.cmd
 call rules.cmd 5520 5522
 
 call get_var.cmd -f "%DEVICE%:path_to_install" -v PATH_PELENG -q "Specify the folder name for install %DEVICE% "
-for /f %%i in ('echo %PATH_PELENG% | sed -n /"Program Files"/ip') do if "%%i" == "" (set var=0) else set var=1
-if %var% == 1 (
-	for /f %%i in ('echo %PATH_PELENG% | sed -n /\(x86\)/p') do if "%%i" == "" (set var=0) else set var=1
-	if %var% == 0 if /i %PROCESSOR_ARCHITECTURE%==amd64 sed s/"Program Files"/"Program Files (x86)"/i
+if /i %PROCESSOR_ARCHITECTURE%==amd64 (
+	echo %PATH_PELENG%>%tmp%\tmp.txt
+	sed -i "s/Program Files\\/Program Files (x86)\\/i" %tmp%\tmp.txt
+	set /p PATH_PELENG=<%tmp%\tmp.txt
 )
 call debug_lvl.cmd 2 "%~n0" "PATH_PELENG=%PATH_PELENG%"
 call setxx.cmd PATH_PELENG "%PATH_PELENG%"

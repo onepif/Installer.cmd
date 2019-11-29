@@ -1,3 +1,7 @@
+:: =============================================================================
+:: ./copySS.cmd
+:: <charset=cp866/>
+:: =============================================================================
 if not defined CMD_DBG call header.cmd
 
 if not defined step (set /a step=0)
@@ -11,34 +15,18 @@ if /i %PROCESSOR_ARCHITECTURE%==amd64 (
 ) else copy /Y %SOFT_ENV%\sys\Supervisor\lib\*.dll %WINDIR%\system32 >nul 2>nul
 if %errorlevel% == 0 (%CMD_Ok%) else %CMD_Err%
 
-for /f %%i in (
-	%SOFT_ENV%\sys\Supervisor\bin\Supervisor*.exe
-	%SOFT_ENV%\sys\Supervisor\bin\rc.SS.cmd
-	%SOFT_ENV%\sys\Supervisor\etc\*.xml
-	logging.cmd
-	debug_lvl.cmd
-	header.cmd
-	choiceShell.cmd
-	get_var.cmd
-	get_num.cmd
-	choice_cli.cmd
-	work_int.cmd
+for %%i in (
+	"%SOFT_ENV%\sys\Supervisor\bin\Supervisor*.exe"
+	"%SOFT_ENV%\sys\Supervisor\bin\rc.SS.cmd"
+	"%SOFT_ENV%\sys\Supervisor\etc\*.xml"
+	"%~dp0logging.cmd"
+	"%~dp0debug_lvl.cmd"
 ) do (
-	copy /y %%i* %WINDIR%\ >nul 2>nul
+	call debug_lvl 4 "%~n0" "copy %%i to %WINDIR%"
+	copy /y %%i %WINDIR%\ >nul 2>nul
 	if %errorlevel% == 0 (%CMD_Ok%) else %CMD_Err%
 )
-
-::copy /Y %SOFT_ENV%\sys\Supervisor\bin\Supervisor*.exe %WINDIR%\ >nul 2>nul
-::if %errorlevel% == 0 (%CMD_Ok%) else %CMD_Err%
-
-::copy /Y %SOFT_ENV%\sys\Supervisor\etc\*.xml %WINDIR%\ >nul 2>nul
-::if %errorlevel% == 0 (%CMD_Ok%) else %CMD_Err%
-
-::copy /Y %SOFT_ENV%\sys\Supervisor\bin\rc.SS.cmd %WINDIR%\ >nul 2>nul
-::if %errorlevel% == 0 (%CMD_Ok%) else %CMD_Err%
-
-::copy /Y logging.cmd %WINDIR%\ >nul 2>nul
-::if %errorlevel% == 0 (%CMD_OkCr%) else %CMD_ErrCr%
+%CMD_EMPTY%
 
 if "%1" == "" (
 	if not defined DEVICE (

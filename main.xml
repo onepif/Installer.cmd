@@ -14,7 +14,7 @@
 	<password>1</password>
 	<subnet>192.168</subnet>
 	<stepnet>10</stepnet>
-	<time_servers_ip>5</time_servers_ip>
+	<time_servers_ip>2</time_servers_ip>
 </COMMON>
 
 <SMART>

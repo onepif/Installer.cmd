@@ -1,5 +1,7 @@
+:: =============================================================================
 :: ./main.cmd
 :: <charset=cp866/>
+:: =============================================================================
 
 :: The initial configuration script windows.
 :: For the correct operation of the script must be run with administrator privileges
@@ -128,7 +130,7 @@ if not defined ID (
 )
 call configure_tools.cmd
 
-%CMD_DBG% "=== Script %~n0 continuation ==="
+%CMD_DBG% "=======================   Script %~n0 continuation    ======================="
 
 if not defined FLAG_DEBUG start sys_info.cmd
 
@@ -464,8 +466,6 @@ if defined FLAG_WOQUERY (call del_var.cmd) else (
 	EndLocal
 )
 
-del /f /q sed*
-
 set fCONS=%var_cons%
 set fLOG=%var_log%
 set FLAG_DEBUG=%var_dbg%
@@ -474,6 +474,7 @@ call debug_lvl.cmd 4 %~n0 "fCONS=%fCONS%, fLOG=%fLOG%, FLAG_DEBUG=%FLAG_DEBUG%, 
 
 %CMD_DBG% "=== Script %~n0 completed ==="
 %CMD_EMPTY%
+call logging.cmd %fCONS% %fLOG% -cr -m"============================================================================="
 call logging.cmd %fCONS% %fLOG% -cr -m"=                             SESSION FINISHED                              ="
 call logging.cmd %fCONS% %fLOG% -cr -m"============================================================================="
 %CMD_EMPTY%
@@ -484,6 +485,7 @@ set /p var1=<%tmp%\tmp.txt
 for /f "skip=2 tokens=4" %%i in ('reg query HKEY_USERS\%sid%\Software\Microsoft\Windows\CurrentVersion\Explorer\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D} /v ""') do set var2=%%i
 copy /y %var1% %~dp0\install_%var2%.log
 
+del /f /q sed*
 set fCONS=&set fLOG=&set CMD_DBG=
 
 SetLocal EnableDelayedExpansion
