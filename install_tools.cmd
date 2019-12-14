@@ -29,20 +29,22 @@ if /i %PROCESSOR_ARCHITECTURE%==amd64 (
 	7z x %SOFT_ENV%\SumatraPDF-3.1.2.zip -o"%PROGRAMFILES%" -y >nul
 )
 
-if "%PROCESSOR_ARCHITECTURE%" == "x86" (
-	7z x -y -o"%PROGRAMFILES%" -r %SOFT_ENV%\OpenSSH-Win32.zip >nul
-	rename "%PROGRAMFILES%\OpenSSH-Win32" OpenSSH >nul
-) else (
-	7z x -y -o"%PROGRAMFILES%" -r %SOFT_ENV%\OpenSSH-Win64.zip >nul
-	rename "%PROGRAMFILES%\OpenSSH-Win64" OpenSSH >nul
+if not exist "%PROGRAMFILES%\OpenSSH" (
+	if "%PROCESSOR_ARCHITECTURE%" == "x86" (
+		7z x -y -o"%PROGRAMFILES%" -r %SOFT_ENV%\ssh\OpenSSH-Win32.zip >nul
+		rename "%PROGRAMFILES%\OpenSSH-Win32" OpenSSH >nul
+	) else (
+		7z x -y -o"%PROGRAMFILES%" -r %SOFT_ENV%\ssh\OpenSSH-Win64.zip >nul
+		rename "%PROGRAMFILES%\OpenSSH-Win64" OpenSSH >nul
+	)
+::	reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v PATH /t reg_expand_sz /d "%PROGRAMFILES%\OpenSSH;%PATH%" /f >nul
+	cd /d "%PROGRAMFILES%\OpenSSH"
+	powershell -executionpolicy bypass -file install-sshd.ps1
+	ssh-keygen.exe
+	net start sshd
+	sc config sshd start= auto
+	cd /d %~dp0
 )
-::reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v PATH /t reg_expand_sz /d "%PROGRAMFILES%\OpenSSH;%PATH%" /f >nul
-cd /d "%PROGRAMFILES%\OpenSSH"
-powershell -executionpolicy bypass -file install-sshd.ps1 >nul
-ssh-keygen.exe
-net start sshd
-sc config sshd start= auto
-
 ::ip_bri="131 132 133 134"
 ::ip_bvi="135 136"
 ::ip_bvz="141 142 143 144"

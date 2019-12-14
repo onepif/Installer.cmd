@@ -244,8 +244,12 @@ if %ID%==%SMART% (
 )
 
 %CMD_DBG% "Section COMMON started"
+:: Определяем версию Windows
+for /f "usebackq tokens=4" %%i in (`ver`) do for /f "usebackq delims=. tokens=1" %%k in (`echo %%i`) do set WINVER=%%k
 
-if '%LOCALE_ID%'=='00000419' (net user Гость /active:yes >nul) else net user Guest /active:yes >nul
+if %WINVER% == 7 (
+	if '%LOCALE_ID%'=='00000419' (net user Гость /active:yes >nul) else net user Guest /active:yes >nul
+)
 
 call copySS.cmd
 
@@ -359,9 +363,6 @@ reg add HKEY_USERS\%sid%\Software\Microsoft\Windows\CurrentVersion\Explorer\Adva
 reg add HKEY_USERS\%sid%\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v Start_LargeMFUIcons /t reg_dword /d 0 /f >nul
 reg add HKEY_USERS\%sid%\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v Start_ShowMyMusic /t reg_dword /d 0 /f >nul
 %CMD_OkCr%
-
-:: Определяем версию Windows
-for /f "usebackq tokens=4" %%i in (`ver`) do for /f "usebackq delims=. tokens=1" %%k in (`echo %%i`) do set WINVER=%%k
 
 if %WINVER% EQU 10 (
 	call logging.cmd %fCONS% %fLOG% -m"Icons in Taskbar and StartMenu in Windows 10... "

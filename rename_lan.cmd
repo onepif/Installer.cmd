@@ -44,7 +44,7 @@ exit /b
 		if !errorlevel! == 0 (%CMD_Ok%) else %CMD_Err%
 	)
 	if "%arg1:~0,3%" == "LAN" (%CMD_SkipCr%) else (
-		netsh interface ipv4 set address LAN%count% static %subNET%.%num%.%IP_WS% 255.255.255.0 %subNET%.%num%.1 1 1>nul
+		netsh interface ipv4 set address LAN%count% static %subNET%.%num%.%IP_WS% 255.255.255.0 %subNET%.%num%.2 1 1>nul
 		if !errorlevel! == 0 (%CMD_OkCr%) else %CMD_ErrCr%
 	)
 	EndLocal
